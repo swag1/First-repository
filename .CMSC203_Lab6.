@@ -1,0 +1,206 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class GradeBookTester {
+
+	GradeBook gradeBookNum1;
+	GradeBook gradeBookNum2;
+    
+	@BeforeEach
+	void setUp() throws Exception {
+		 gradeBookNum1 = new GradeBook(5);
+		 gradeBookNum2 = new GradeBook(5);
+		
+		gradeBookNum1.addScore(3.0);
+		gradeBookNum1.addScore(10.0);
+		gradeBookNum1.addScore(14.0);
+		gradeBookNum1.addScore(23.0);
+		gradeBookNum1.addScore(27.0);
+		
+		gradeBookNum2.addScore(9.0);
+		gradeBookNum2.addScore(12.0);
+		gradeBookNum2.addScore(18.0);
+		gradeBookNum2.addScore(20.0);
+		gradeBookNum2.addScore(42.0);
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+		gradeBookNum1 = null;
+		gradeBookNum2 = null;
+	}
+
+	@Test
+	void testAddScore() {
+		assertTrue(gradeBookNum1.toString().equals("3.0 , 10.0 , 14.0 , 23.0 , 27.0"));
+		assertEquals(5,gradeBookNum1.getScoreSize(), .001);
+		assertTrue(gradeBookNum2.toString().equals("9.0 12.0 18.0 20.0 42.0 "));
+		assertEquals(5,gradeBookNum2.getScoreSize(), .001);
+	}
+
+	@Test
+	void testSum() {
+		assertEquals(77, gradeBookNum1.sum(), .0001);
+		assertEquals(101, gradeBookNum2.sum(), .0001);
+	}
+
+	@Test
+	void testMinimum() {
+		assertEquals(3, gradeBookNum1.minimum(), .001);
+		assertEquals(9, gradeBookNum2.minimum(), .001);
+	}
+ 
+	@Test
+	void testFinalScore() {
+		assertEquals(74, gradeBookNum1.finalScore(), .001);
+		assertEquals(92, gradeBookNum2.finalScore(), .001);
+	}
+
+	@Test
+	void testGetScoreSize() {
+		assertEquals(gradeBookNum1.getScoreSize(), 5, 001); 
+	}
+
+	//@Test
+	//void testToString() {
+		//fail("Not yet implemented");
+	//}
+	
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.ArrayList;
+
+public class GradeBook
+{
+   private double[] scores;
+   private int scoresSize;
+
+   /**
+      Constructs a gradebook with no scores and a given capacity.
+      @capacity the maximum number of scores in this gradebook
+   */
+   public GradeBook(int capacity)
+   {
+      scores = new double[capacity];
+      scoresSize = 0;
+   }
+
+   /**
+      Adds a score to this gradebook.
+      @param score the score to add
+      @return true if the score was added, false if the gradebook is full
+   */
+   public boolean addScore(double score)
+   {
+      if(scoresSize < scores.length)
+      {
+         scores[scoresSize] = score;
+         scoresSize++;
+         return true;
+      }
+      else
+         return false;      
+   }
+
+   /**
+      Computes the sum of the scores in this gradebook.
+      @return the sum of the scores
+   */
+   public  double sum()
+   {
+      double total = 0.0;
+      for (int i = 0; i < scoresSize; i++)
+      {
+         total = total + scores[i];
+      }
+      return total;
+   }
+      
+   /**
+      Gets the minimum score in this gradebook.
+      @return the minimum score, or 0 if there are no scores.
+   */
+   public double minimum()
+   {
+      if (scoresSize == 0) return 0;
+      double smallest = scores[0];
+      for (int i = 1; i < scoresSize; i++)
+      {
+         if (scores[i] < smallest)
+         {
+            smallest = scores[i];
+         }
+      }
+      return smallest;
+   }
+
+   /**
+      Gets the final score for this gradebook.
+      @return the sum of the scores, with the lowest score dropped if 
+      there are at least two scores, or 0 if there are no scores.
+   */
+   public double finalScore() 
+   {
+      if (scoresSize == 0)
+         return 0;
+      else if (scoresSize == 1)
+         return scores[0];
+      else
+         return sum() - minimum();
+   }
+   
+  int getScoreSize() {
+	   return scoresSize;
+   }
+  
+  /*2.	Add a toString() method to the Gradebook class that returns a string with each score in scores
+   *  separated by a space.*/
+public String toString() {
+	
+	
+	
+	String scoreToString = "";
+	
+	for (int i = 0; i <scoresSize; i++) {
+		
+		 
+		
+		scoreToString+= scores[i] + " , ";
+		
+		
+		
+	
+	}
+	 
+	scoreToString = scoreToString.substring(0, scoreToString.length() -1);
+	  return scoreToString;
+  }
+}
+
+
+
+
+
+
+
+
+
+
